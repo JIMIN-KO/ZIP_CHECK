@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { CATEGORIES } from '../constants';
-import { Importance, UserCriteria } from '../types';
-import { RatingButton } from './RatingButton';
+import { CATEGORIES } from '../constants.ts';
+import { Importance, UserCriteria } from '../types.ts';
+import { RatingButton } from './RatingButton.tsx';
 import { Info } from 'lucide-react';
 
 interface Props {

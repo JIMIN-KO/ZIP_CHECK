@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { CATEGORIES } from '../constants';
-import { Answer, PropertyData } from '../types';
-import { RatingButton } from './RatingButton';
+import { CATEGORIES } from '../constants.ts';
+import { Answer, PropertyData } from '../types.ts';
+import { RatingButton } from './RatingButton.tsx';
 import { MapPin, StickyNote } from 'lucide-react';
 
 interface Props {
@@ -28,7 +28,6 @@ export const Step2Checklist: React.FC<Props> = ({ propertyData, setPropertyData,
       </div>
 
       <div className="space-y-6 mb-12">
-        {/* Info Inputs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-bold text-gray-700 flex items-center">
@@ -58,7 +57,6 @@ export const Step2Checklist: React.FC<Props> = ({ propertyData, setPropertyData,
 
         <hr className="border-gray-100 my-8" />
 
-        {/* Categories Checklist */}
         <div className="space-y-4">
           {CATEGORIES.map(cat => (
             <div key={cat.id} className="p-6 bg-white border border-gray-100 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between transition-all hover:bg-gray-50/50">

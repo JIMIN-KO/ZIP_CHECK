@@ -2,8 +2,8 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { X, TrendingUp, Users, Heart, Star, CheckCircle2 } from 'lucide-react';
-import { CATEGORIES } from '../constants';
-import { FeedbackData } from '../types';
+import { CATEGORIES } from '../constants.ts';
+import { FeedbackData } from '../types.ts';
 
 interface Props {
   onClose: () => void;
@@ -24,15 +24,12 @@ const MOCK_IMPORTANCE = CATEGORIES.map(cat => ({
 })).sort((a, b) => b.count - a.count).slice(0, 5);
 
 export const AdminDashboard: React.FC<Props> = ({ onClose, feedbacks }) => {
-  
-  // 실제 피드백 데이터 가공
   const getFeedbackStats = (type: 'helpfulness' | 'accuracy') => {
     const stats = { positive: 0, neutral: 0, negative: 0 };
     feedbacks.forEach(f => {
       if (f[type]) stats[f[type] as keyof typeof stats]++;
     });
     
-    // 만약 데이터가 없으면 Mock 데이터로 시연
     if (feedbacks.length === 0) {
       return [
         { name: '만족', value: 75, color: '#2563EB' },
@@ -51,7 +48,6 @@ export const AdminDashboard: React.FC<Props> = ({ onClose, feedbacks }) => {
   const helpfulStats = getFeedbackStats('helpfulness');
   const accuracyStats = getFeedbackStats('accuracy');
 
-  // 총 만족도 계산
   const totalCount = feedbacks.length || 100;
   const positiveCount = feedbacks.filter(f => f.helpfulness === 'positive').length || 75;
   const satisfactionRate = Math.round((positiveCount / totalCount) * 100);
@@ -97,7 +93,6 @@ export const AdminDashboard: React.FC<Props> = ({ onClose, feedbacks }) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Question 1: Helpfulness Chart */}
           <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100">
             <div className="flex items-center mb-6">
                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
@@ -136,7 +131,6 @@ export const AdminDashboard: React.FC<Props> = ({ onClose, feedbacks }) => {
             </div>
           </div>
 
-          {/* Question 2: Accuracy Chart */}
           <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100">
             <div className="flex items-center mb-6">
                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 mr-3">
@@ -175,7 +169,6 @@ export const AdminDashboard: React.FC<Props> = ({ onClose, feedbacks }) => {
             </div>
           </div>
 
-          {/* Importance Chart */}
           <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100">
             <h3 className="text-lg font-bold mb-6">가장 많이 선택된 '중요' 항목 TOP 5</h3>
             <div className="h-64">
@@ -191,7 +184,6 @@ export const AdminDashboard: React.FC<Props> = ({ onClose, feedbacks }) => {
             </div>
           </div>
 
-          {/* Score Trend */}
           <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100">
             <h3 className="text-lg font-bold mb-6">월별 매물 평균 점수 추이</h3>
             <div className="h-64">

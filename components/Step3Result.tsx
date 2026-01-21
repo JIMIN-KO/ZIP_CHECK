@@ -1,8 +1,8 @@
 
 import React, { useMemo, useState } from 'react';
-import { UserCriteria, PropertyData, FeedbackData, FeedbackValue } from '../types';
-import { CATEGORIES } from '../constants';
-import { calculateScores, getGrade, getSmartQuestions } from '../services/analysisService';
+import { UserCriteria, PropertyData, FeedbackData, FeedbackValue } from '../types.ts';
+import { CATEGORIES } from '../constants.ts';
+import { calculateScores, getGrade, getSmartQuestions } from '../services/analysisService.ts';
 import { Copy, RefreshCw, MessageSquareText, HelpCircle, AlertCircle, Share2, Frown, Meh, Smile } from 'lucide-react';
 
 interface Props {
@@ -41,14 +41,13 @@ export const Step3Result: React.FC<Props> = ({ criteria, propertyData, onRestart
     const newFeedback = { ...feedback, [type]: value };
     setFeedback(newFeedback);
     
-    // 두 질문 모두 답변 시 제출 처리
     if (newFeedback.helpfulness && newFeedback.accuracy) {
       onFeedbackSubmit(newFeedback);
       setSubmitted(true);
     }
   };
 
-  const gradeColors = {
+  const gradeColors: Record<string, string> = {
     'A': 'text-emerald-600 bg-emerald-50 border-emerald-100',
     'B': 'text-blue-600 bg-blue-50 border-blue-100',
     'C': 'text-rose-600 bg-rose-50 border-rose-100',
@@ -67,7 +66,6 @@ export const Step3Result: React.FC<Props> = ({ criteria, propertyData, onRestart
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-        {/* Core Analysis Card */}
         <div className="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm">
           <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
             <MessageSquareText size={22} className="mr-2 text-blue-600" />
@@ -97,7 +95,6 @@ export const Step3Result: React.FC<Props> = ({ criteria, propertyData, onRestart
           </div>
         </div>
 
-        {/* Smart Recommendations */}
         <div className="p-8 bg-blue-600 rounded-3xl shadow-xl text-white relative">
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-center space-x-1 relative">
@@ -138,7 +135,6 @@ export const Step3Result: React.FC<Props> = ({ criteria, propertyData, onRestart
         </div>
       </div>
 
-      {/* Improved Feedback Section */}
       <div className="bg-gray-50 rounded-3xl border border-gray-100 p-8 mb-12 relative overflow-hidden">
         {submitted && (
           <div className="absolute inset-0 bg-blue-600/95 flex flex-col items-center justify-center text-white z-10 animate-in fade-in">
@@ -149,7 +145,6 @@ export const Step3Result: React.FC<Props> = ({ criteria, propertyData, onRestart
         )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Question 1 */}
           <div className="text-center md:text-left">
             <h4 className="font-bold text-gray-800 mb-6">집 판단에 도움이 되었나요?</h4>
             <div className="flex justify-center md:justify-start space-x-3">
@@ -177,7 +172,6 @@ export const Step3Result: React.FC<Props> = ({ criteria, propertyData, onRestart
             </div>
           </div>
 
-          {/* Question 2 */}
           <div className="text-center md:text-left">
             <h4 className="font-bold text-gray-800 mb-6">점수가 내 기준을 잘 반영하나요?</h4>
             <div className="flex justify-center md:justify-start space-x-3">

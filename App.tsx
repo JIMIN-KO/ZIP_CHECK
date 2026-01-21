@@ -1,22 +1,26 @@
 
 import React, { useState, useEffect } from 'react';
-import { AppStep, UserCriteria, ChecklistResponse, PropertyData, FeedbackData } from './types';
-import { CATEGORIES } from './constants';
-import { Layout } from './components/Layout';
-import { Landing } from './components/Landing';
-import { Step1Criteria } from './components/Step1Criteria';
-import { Step2Checklist } from './components/Step2Checklist';
-import { Step3Result } from './components/Step3Result';
-import { AdminDashboard } from './components/AdminDashboard';
+import { AppStep, UserCriteria, ChecklistResponse, PropertyData, FeedbackData } from './types.ts';
+import { CATEGORIES } from './constants.ts';
+import { Layout } from './components/Layout.tsx';
+import { Landing } from './components/Landing.tsx';
+import { Step1Criteria } from './components/Step1Criteria.tsx';
+import { Step2Checklist } from './components/Step2Checklist.tsx';
+import { Step3Result } from './components/Step3Result.tsx';
+import { AdminDashboard } from './components/AdminDashboard.tsx';
 import { ArrowLeft, LayoutDashboard, Home, Check } from 'lucide-react';
 
 const App: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>(AppStep.LANDING);
   
-  // 피드백 통계를 위한 로컬 데이터 (현장 시뮬레이션용)
+  // 피드백 통계를 위한 로컬 데이터
   const [allFeedbacks, setAllFeedbacks] = useState<FeedbackData[]>(() => {
-    const saved = localStorage.getItem('house_feedbacks');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('house_feedbacks');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
   });
 
   const getInitialCriteria = (): UserCriteria => {
@@ -38,12 +42,10 @@ const App: React.FC = () => {
   const [criteria, setCriteria] = useState<UserCriteria>(getInitialCriteria);
   const [propertyData, setPropertyData] = useState<PropertyData>(getInitialPropertyData);
 
-  // Reset scroll to top on step change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStep]);
 
-  // 피드백 데이터 저장
   const handleFeedbackSubmit = (feedback: FeedbackData) => {
     const updated = [...allFeedbacks, feedback];
     setAllFeedbacks(updated);
@@ -95,7 +97,6 @@ const App: React.FC = () => {
   return (
     <Layout>
       <div className="relative min-h-screen">
-        {/* Navigation Overlays */}
         {currentStep !== AppStep.LANDING && currentStep !== AppStep.ADMIN && (
           <div className="max-w-4xl mx-auto pt-6 px-4 flex justify-between items-center mb-4">
              <button onClick={goBack} className="p-2 hover:bg-gray-100 rounded-full transition-colors flex items-center text-gray-600">
@@ -108,7 +109,6 @@ const App: React.FC = () => {
           </div>
         )}
 
-        {/* Header Branding */}
         <header className="fixed top-0 left-0 w-full h-16 bg-white/80 backdrop-blur-md z-40 border-b flex items-center justify-between px-6">
           <div className="flex items-center cursor-pointer group" onClick={() => setCurrentStep(AppStep.LANDING)}>
             <div className="relative w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm mr-2.5 transition-transform group-hover:scale-105">
@@ -122,6 +122,7 @@ const App: React.FC = () => {
           <button 
             onClick={() => setCurrentStep(AppStep.ADMIN)}
             className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+            title="관리자 대시보드"
           >
             <LayoutDashboard size={20} />
           </button>
